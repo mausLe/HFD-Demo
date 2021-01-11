@@ -31,12 +31,13 @@
           <table>
             <tr>
               <td>
+                {% block content %}
+                <p>{{content}}</p>
                 <video id="video_player" controls width="600" muted=TRUE >
-                    {% block content %}
                     <source src= "{{content}}" type="video/mp4">
+                    </video>    
                     {% endblock %}
-                </video>    
-                </td>
+                  </td>
               </tr>
               
               <tr>

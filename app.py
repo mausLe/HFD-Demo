@@ -2,32 +2,35 @@ from flask import Flask, render_template, request, session
 from flask import flash, redirect, url_for
 
 from werkzeug.utils import secure_filename
-from datetime import timedelta
-import os
-from werkzeug.utils import secure_filename
-import sys
+import os, sys
 
 app = Flask(__name__)
+UPLOAD_FOLDER = r'\path\uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 ALLOWED_EXTENSIONS = {'mp4','png', 'jpg', 'jpeg', 'gif'}    
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
-@app.route('/', methods=['GET', 'POST'])
-def processing():
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    myDict = {"input":None, "output":None, "yt_link":None}
     if request.method == 'GET':
-        return render_template(r'home.html')
+        return render_template('demo.html')
     elif request.method == 'POST':
+        # return request.form['fileSubmission']
         # check if the post request has the file part
-        if 'file' not in request.files:
-            return 'No file part'
-        file = request.files['file']
+        file = request.files['fileSubmission']
+
+        myDict = file
+
+
         # # if user does not select file, browser also
         # # submit an empty part without filename
-        if file.filename == '':
-            return 'No selected file'
-        if file and allowed_file(file.filename):
+
+        if file:
             # filename = secure_filename(file.filename)
             # save file
 
@@ -36,9 +39,9 @@ def processing():
             # khai báo static cho file
             # run_demo(r'path\uploads\input.mp4',r'static\output.webm',r'static\score.webm')
             # url_for(r'static', filename=r'output.webm',filename1=r'score.webm')
-            return render_template(r'upload.html', file= r'output.webm',file1=r'score.webm' )
-        return 'home'
+            return render_template('upload.html', content=myDict)
+    return render_template('demo.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000)
+    app.run(debug=True)
 

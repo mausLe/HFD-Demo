@@ -24,23 +24,14 @@
     </nav>
   </div>
 
-
-  <script>
-  function upload_video()
-  {
-    document.getElementById("video_player").src="C:\Users\Maus\Videos\50waystofall_Trim.mp4";
-    document.getElementById("processed_video").load();
-  }
-  </script>
-
 <div class="container">
       <!-- action="#": redirect to the current page--> 
       <!-- method "POST": More securer method than "GET"--> 
 
       <form action="#" method="POST" enctype="multipart/form-data">
         <p> Select  file to upload</p>
-        <input type="file" name="fileSubmission" id="fileSubmission">
-        <input type="submit" value="Upload your file" name="submit">
+        <input type="file" name="fileSubmission">
+        <input type="submit" value="Upload your file">
         <div class="video_holder">
           <table>
             <tr>

@@ -7,6 +7,24 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
   <script>var content = '{{myDict}}';</script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    .column {
+      float: left;
+      padding: 10px;
+    }
+    
+    /* Clearfix (clear floats) */
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    </style>
+
   </head>
   <body>
     <div class="navigator bar">
@@ -20,25 +38,19 @@
 <div class="container">
       <!-- action="#": redirect to the current page--> 
       <!-- method "POST": More securer method than "GET"--> 
-        <div class="video_holder">
-          <table>
-            <tr>
-              <td>
-                <video id="video_player" controls width="600" muted=TRUE >
-                  <source src= "{{content['input']}}" type="video/mp4">
-                </video>    
-                  </td>
-              </tr>
-              
-              <tr>
-                <td>
-                  <video id="processed_video" controls width="600" muted=TRUE>
-                    <source src="{{content['output']}}" type="video/mp4">
-                  </video>    
-                  </td>
-                </tr>
-              </table>
-            </div>
+      <div class="row">
+        <div class="column">
+          <video id="video_player" controls width="500" muted=TRUE >
+            <source src= "{{content['input']}}" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="column">
+          <video id="processed_video" controls width="500" muted=TRUE>
+            <source src="{{content['output']}}" type="video/mp4">
+          </video>    
+        </div>
+    </div>
             
   </div>
   </body>

@@ -66,19 +66,24 @@ def upload():
             shutil.move(dl_vid, dst_vid)
             ydl.cache.remove()
 
+            myDict["input"] = dst_vid
+            myDict["output"] = dst_vid
+            # myDict["output"] = r'static\videos\output.mp4'
+        
+        elif file:
+            myDict["input"] = r'static\videos\input.mp4'
+            myDict["output"] = r'static\videos\output.mp4'
 
         # # if user does not select file, browser also
         # # submit an empty part without filename
 
-        if file:
+
+
+        if file or yt_link:
             # filename = secure_filename(file.filename)
             # save file
             file.save(r'static\videos\input.mp4')
             
-            myDict["input"] = r'static\videos\input.mp4'
-            myDict["output"] = r'static\videos\output.mp4'
-
-
             # xử lí xong xuất file qua thư mục static và thay đổi giá trị img_test.jpg
             # khai báo static cho file
             # run_demo(r'path\uploads\input.mp4',r'static\output.webm',r'static\score.webm')

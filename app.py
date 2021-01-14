@@ -34,12 +34,12 @@ def upload():
         if file:
             # filename = secure_filename(file.filename)
             # save file
+            file.save(r'static\videos\input.mp4')
             
             myDict["input"] = r'static\videos\input.mp4'
             myDict["output"] = r'static\videos\output.mp4'
 
 
-            # file.save(r'HFD-Demo\static\videos\output.mp4')
             # xử lí xong xuất file qua thư mục static và thay đổi giá trị img_test.jpg
             # khai báo static cho file
             # run_demo(r'path\uploads\input.mp4',r'static\output.webm',r'static\score.webm')

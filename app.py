@@ -3,7 +3,7 @@ from flask import flash, redirect, url_for
 
 from werkzeug.utils import secure_filename
 import os, sys
-import cv2
+import youtube_dl, shutil
 
 app = Flask(__name__)
 UPLOAD_FOLDER = r'\path\uploads'
@@ -11,6 +11,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 url = None
 ALLOWED_EXTENSIONS = {'mp4','png', 'jpg', 'jpeg', 'gif'}    
+
+
+ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s.%(ext)s'})
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -27,6 +30,42 @@ def upload():
         # return request.form['fileSubmission']
         # check if the post request has the file part
         file = request.files['fileSubmission']
+
+        yt_link = request.form["ytlink"]
+
+        if yt_link:
+
+            with ydl:
+                result = ydl.extract_info(yt_link, download=True)
+
+
+
+                #download = False - extract video info
+
+
+            if "entries" in result:
+                # resutl could be a playlist or a list of videos
+                video = result["entries"][0]
+            else:
+                video = result
+            
+            # print("YT video: \n\n", video)
+            video_url = video["webpage_url"]
+            vid_title = video["title"]
+            vid_title = vid_title.replace("\\", "-")
+            vid_title = vid_title.replace(".", "_")
+            vid_title = vid_title.replace("/", "-")
+
+            dl_vid = video["id"] + ".mp4"
+
+            dst_vid = r'static\videos\{}.mp4'.format(vid_title)
+
+            print("Destination video: ", dst_vid)
+            print("video title", video_url)
+            
+            shutil.move(dl_vid, dst_vid)
+            ydl.cache.remove()
+
 
         # # if user does not select file, browser also
         # # submit an empty part without filename

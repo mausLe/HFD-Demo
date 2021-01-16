@@ -21,7 +21,7 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_b2dl_fallingdown.mp4", "yt_link":None}
+    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_b2dl_fallingdown_webm.webm", "yt_link":None}
     
     
     if request.method == 'GET':
@@ -66,11 +66,9 @@ def upload():
 
             myDict["input"] = dst_vid
             # myDict["output"] = dst_vid
-            myDict["output"] = r'static\videos\output.webm'
         
         elif file:
             myDict["input"] = r'static\videos\input.mp4'
-            myDict["output"] = r'static\videos\output.webm'
 
             file.save(r'static\videos\input.mp4')
         # # if user does not select file, browser also
@@ -79,6 +77,7 @@ def upload():
 
 
         if file or yt_link:
+            # myDict["output"] = r'static\videos\output.webm'
             # filename = secure_filename(file.filename)
             # save file
             

@@ -26,8 +26,7 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_b2dl_fallingdown.mp4", "yt_link":None}
-    
+    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_b2dl_fallingdown_webm.webm", "yt_link":None}
     
     if request.method == 'GET':
         return render_template('demo.html', content=myDict)
@@ -74,10 +73,11 @@ def upload():
             # myDict["output"] = r'static\videos\output.mp4'
         
         elif file:
-            myDict["input"] = r'static\videos\input.mp4'
-            myDict["output"] = r'static\videos\output.mp4'
-
             file.save(r'static\videos\input.mp4')
+
+            myDict["input"] = r'static\videos\input.mp4'
+            # myDict["output"] = r'static\videos\output.mp4'
+
         # # if user does not select file, browser also
         # # submit an empty part without filename
 
@@ -95,6 +95,7 @@ def upload():
             # Run proccess to execute algorithms.py
             f.change_parser_args(myDict)
             f.begin()
+            myDict["output"] = r'static\videos\output.mp4'
             
             return render_template('upload.html', content=myDict)
     return render_template('demo.html', content=myDict)

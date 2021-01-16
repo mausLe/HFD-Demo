@@ -13,21 +13,21 @@ class Processor(object):
         self.width_height = width_height
 
         # Load model
-        print("PROCESSOR.PY, Call openpifpaf.NETWORK.factory_from_args()")
-        print("return net_cpu, epoch")
+        # print("PROCESSOR.PY, Call openpifpaf.NETWORK.factory_from_args()")
+        # print("return net_cpu, epoch")
         self.model, _ = openpifpaf.network.factory_from_args(args)
 
-        print("PROCESSOR.PY, Call model.to(args.device)")
+        # print("PROCESSOR.PY, Call model.to(args.device)")
         self.model = self.model.to(args.device)
 
-        print("\nPROCESSOR.PY, Call openpifpaf.DECODER.factory_from_args()")
+        # print("\nPROCESSOR.PY, Call openpifpaf.DECODER.factory_from_args()")
         self.processor = openpifpaf.decoder.factory_from_args(args, self.model)
         
-        # print(self.processor.device)
+        # # print(self.processor.device)
         self.device = args.device
 
     def get_bb(self, kp_set, score=None):
-        print("\nPROCESSOR.PY, Get Openpifpaf Bounding box")
+        # print("\nPROCESSOR.PY, Get Openpifpaf Bounding box")
 
         bb_list = []
         for i in range(kp_set.shape[0]):
@@ -60,7 +60,7 @@ class Processor(object):
 
     @staticmethod
     def keypoint_sets(annotations):
-        print("\nPROCESSOR.PY, Get Openpifpaf keypoint_sets")
+        # print("\nPROCESSOR.PY, Get Openpifpaf keypoint_sets")
 
         keypoint_sets = [ann.data for ann in annotations]
         # scores = [ann.score() for ann in annotations]
@@ -73,7 +73,7 @@ class Processor(object):
         return keypoint_sets
 
     def single_image(self, image):
-        print("\nPROCESSOR.PY, Process on single image")
+        # print("\nPROCESSOR.PY, Process on single image")
 
 
         # image_bytes = io.BytesIO(base64.b64decode(b64image))
@@ -84,13 +84,13 @@ class Processor(object):
         if (im.size[0] > im.size[1]) != (target_wh[0] > target_wh[1]):
             target_wh = (target_wh[1], target_wh[0])
         if im.size[0] != target_wh[0] or im.size[1] != target_wh[1]:
-            # print(f'!!! have to resize image to {target_wh} from {im.size}')
+            # # print(f'!!! have to resize image to {target_wh} from {im.size}')
             im = im.resize(target_wh, PIL.Image.BICUBIC)
         width_height = im.size
 
         start = time.time()
 
-        print("\nPROCESSOR.PY, CALL openpifpaf.TRANSFORMS.Compose()")
+        # print("\nPROCESSOR.PY, CALL openpifpaf.TRANSFORMS.Compose()")
 
         preprocess = openpifpaf.transforms.Compose([
             openpifpaf.transforms.NormalizeAnnotations(),
@@ -98,12 +98,12 @@ class Processor(object):
             openpifpaf.transforms.EVAL_TRANSFORM,
         ])
         # processed_image, _, __ = preprocess(im, [], None)
-        print("\nPROCESSOR.PY, CALL openpifpaf.PILImageList.PilImageList()")
+        # print("\nPROCESSOR.PY, CALL openpifpaf.PILImageList.PilImageList()")
         processed_image = openpifpaf.datasets.PilImageList([im], preprocess=preprocess)[0][0]
         # processed_image = processed_image_cpu.contiguous().to(self.device, non_blocking=True)
-        # print(f'preprocessing time {time.time() - start}')
+        # # print(f'preprocessing time {time.time() - start}')
 
-        print("\nPROCESSOR.PY, CALL processor.batch")
+        # print("\nPROCESSOR.PY, CALL processor.batch")
         all_fields = self.processor.batch(self.model, torch.unsqueeze(
             processed_image.float(), 0), device=self.device)[0]
         keypoint_sets = self.keypoint_sets(all_fields)

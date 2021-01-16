@@ -93,6 +93,7 @@ def upload():
             # url_for(r'static', filename=r'output.webm',filename1=r'score.webm')
             
             # Run proccess to execute algorithms.py
+            f.change_parser_args(myDict)
             f.begin()
             
             return render_template('upload.html', content=myDict)

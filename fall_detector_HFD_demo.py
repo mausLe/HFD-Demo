@@ -169,3 +169,6 @@ class FallDetector:
         print('Ending...')
         return
 
+    def change_parser_args(self, myDict):
+        self.args.video = myDict["input"]
+        self.args.out_path = myDict["output"]

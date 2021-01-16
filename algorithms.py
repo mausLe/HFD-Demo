@@ -34,7 +34,10 @@ def get_source(args):
     
     else:
         logging.debug(f'Video source: {args.video}')
+
+        # Edit video fps 
         cam = cv2.VideoCapture(args.video)
+        args.fps = cam.get(cv2.CAP_PROP_FPS)
         if isinstance(args.video, str):
             vid = [int(s) for s in re.findall(r'\d+', args.video)]
             if len(vid) == 5:
@@ -246,14 +249,18 @@ def show_tracked_img(img_dict, ip_set, num_matched, output_video, args):
             # output_video = cv2.VideoWriter(filename='/'.join(vidname[:-1])+'/out'+vidname[-1][:-3]+'avi', fourcc=cv2.VideoWriter_fourcc(*'MP42'),
             #                                fps=args.fps, frameSize=img.shape[:2][::-1])
             if args.input_direct is None:
+                # cv2.VideoWriter('basicvideo.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 20, (width,height))
                 vidname = args.video.split('/')
-                output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-1][:-3]+'avi', fourcc=cv2.VideoWriter_fourcc(*'MP42'),
+                # output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-1][:-3]+'.avi', fourcc=cv2.VideoWriter_fourcc(*'MP42'),
+                #                            fps=args.fps, frameSize=img.shape[:2][::-1])
+                
+                output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-1][:-3]+'mp4', fourcc=cv2.VideoWriter_fourcc(*'DIVX'),
                                            fps=args.fps, frameSize=img.shape[:2][::-1])
-            
+
             else:
                 # /content/HumanFallDetection/vids/input/harUP/s1a1t1c1/Camera1/*.*
                 vidname = args.input_direct.split("/")
-                output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-3]  + '.avi', fourcc=cv2.VideoWriter_fourcc(*'MP42'),
+                output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-3]  + 'mp4', fourcc=cv2.VideoWriter_fourcc(*'DIVX'),
                                            fps=args.fps, frameSize=img.shape[:2][::-1])
                 
             

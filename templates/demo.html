@@ -53,14 +53,14 @@
       </form>
         <div class="row">
             <div class="column">
-              <video id="video_player" controls width="500" muted=TRUE >
+              <video id="video_player" controls autoplay width="500"  muted=TRUE >
                 <source src= "{{content['input']}}" type="video/mp4">
               </video>
             </div>
 
             <div class="column">
-              <video id="processed_video" controls width="500" muted=TRUE>
-                <source src="{{content['output']}}" type="video/mp4">
+              <video id="processed_video" controls autoplay width="500"  muted=TRUE>
+                <source src="{{content['output']}}" type="video/webm>
               </video>    
             </div>
         </div>

@@ -21,7 +21,7 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    myDict = {"input":r"static\videos\fallingdown_Trimed.mp4", "output":r"static\videos\shufflenetv2k30w_outfallingdown_Trimed.mp4", "yt_link":None}
+    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_fallingdown.mp4", "yt_link":None}
     
     
     if request.method == 'GET':

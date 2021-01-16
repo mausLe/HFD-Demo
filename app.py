@@ -21,7 +21,7 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_fallingdown.mp4", "yt_link":None}
+    myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\out_b2dl_fallingdown.mp4", "yt_link":None}
     
     
     if request.method == 'GET':
@@ -65,12 +65,12 @@ def upload():
             ydl.cache.remove()
 
             myDict["input"] = dst_vid
-            myDict["output"] = dst_vid
-            # myDict["output"] = r'static\videos\output.mp4'
+            # myDict["output"] = dst_vid
+            myDict["output"] = r'static\videos\output.webm'
         
         elif file:
             myDict["input"] = r'static\videos\input.mp4'
-            myDict["output"] = r'static\videos\output.mp4'
+            myDict["output"] = r'static\videos\output.webm'
 
             file.save(r'static\videos\input.mp4')
         # # if user does not select file, browser also
@@ -86,6 +86,9 @@ def upload():
             # khai báo static cho file
             # run_demo(r'path\uploads\input.mp4',r'static\output.webm',r'static\score.webm')
             # url_for(r'static', filename=r'output.webm',filename1=r'score.webm')
+            
+            # Run proccess to execute algorithms.py
+
             return render_template('upload.html', content=myDict)
     return render_template('demo.html', content=myDict)
 

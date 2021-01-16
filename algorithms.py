@@ -225,18 +225,18 @@ def extract_keypoints_parallel(queue, args, self_counter, other_counter, consecu
 
 
 def show_tracked_img(img_dict, ip_set, num_matched, output_video, args):
-    print("\n\nFunction 4 - show_tracked_img() - LINE 225")
+    # print("\n\nFunction 4 - show_tracked_img() - LINE 225")
 
     img = img_dict["img"]
     tagged_df = img_dict["tagged_df"]
     keypoints_frame = [person[-1] for person in ip_set]
 
-    print("F4 - visualise_tracking()")
+    # print("F4 - visualise_tracking()")
     img = visualise_tracking(img=img, keypoint_sets=keypoints_frame, width=img_dict["width"], height=img_dict["height"],
                              num_matched=num_matched, vis_keypoints=img_dict["vis_keypoints"], vis_skeleton=img_dict["vis_skeleton"],
                              CocoPointsOn=False)
 
-    print("F4 - write_on_image()")
+    # print("F4 - write_on_image()")
     img = write_on_image(img=img, text=tagged_df["text"],
                          color=tagged_df["color"])
 

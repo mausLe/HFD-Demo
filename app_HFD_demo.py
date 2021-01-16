@@ -70,7 +70,7 @@ def upload():
             ydl.cache.remove()
 
             myDict["input"] = dst_vid
-            myDict["output"] = dst_vid
+            # myDict["output"] = dst_vid
             # myDict["output"] = r'static\videos\output.mp4'
         
         elif file:

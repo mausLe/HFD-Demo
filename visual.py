@@ -78,23 +78,58 @@ activity_dict = {
 def write_on_image(img: np.ndarray, text: str, color: List) -> np.ndarray:
     """Write text at the top of the image."""
     # Add a white border to top of image for writing text
+    VERTICAL_BORDER_SIZE = int(0.1 * img.shape[1])
+
+    # With OPENCV RGB -> BGR
+
+    rgb_red = [0, 0, 255]
+    rgb_green = [60, 179, 0]
+    rgb_yellow = [0, 230, 230]
+    rgb_blue = [230, 92, 0]
+    
+    status_index = text.find("Pred")
+    
+    # text = "Avg FPS: 12.0, Frame: 33 Pred: FALL Warning"
+    # find "Pred" and then "FALL Warning"
+    status = text[status_index + 6:] # Normal/FALL Warning/FALL/None
+    rgb_color = {"Normal":rgb_green, "FALL Warning":rgb_yellow, "FALL":rgb_red, "None":rgb_blue}
+
+    print("Status: {} - Color Code: {}".format(status, rgb_color[status]))
+
     img = cv2.copyMakeBorder(src=img,
-                             top=int(0.1 * img.shape[0]),
-                             bottom=0,
-                             left=0,
-                             right=0,
+                             top=int(0.15 * img.shape[0]),
+                             bottom=int(0.05 * img.shape[0]),
+                             left=VERTICAL_BORDER_SIZE,
+                             right=VERTICAL_BORDER_SIZE,
                              borderType=cv2.BORDER_CONSTANT,
                              dst=None,
-                             value=[255, 255, 255])
+                             value=rgb_color[status])
     for i, line in enumerate(text.split('\n')):
         y = 30 + i * 30
+
+        """
+        thickness=60*img.shape[0]//600
+
+        starting_point  = (-10, thickness//2)
+        ending_point  = (img.shape[1]+10, img.shape[0]+10)
+        color=(0, 0, 255)
+        cv2.rectangle(img, starting_point, ending_point, color, thickness)
+        cv2.putText(img=img,
+                    text="HOLA",
+                    org=(50*img.shape[1]//1000, 55*img.shape[0]//600),
+                    fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                    fontScale=2*img.shape[0]/600,
+                    color=[255, 255, 255],
+                    thickness=int(3*img.shape[0]/600) + 3)
+
+        """
         cv2.putText(img=img,
                     text=line,
-                    org=(0, y),
+                    org=(0, y + 20),
                     fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                    fontScale=0.7,
-                    color=color,
-                    thickness=2)
+                    fontScale=1.5,
+                    color=[255, 255, 255],
+                    thickness=4)
 
     return img
 

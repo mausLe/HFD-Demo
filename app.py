@@ -3,25 +3,45 @@ from flask import flash, redirect, url_for
 
 from werkzeug.utils import secure_filename
 import os, sys
-import youtube_dl, shutil
+import youtube_dl, shutil, time
 
 app = Flask(__name__)
 UPLOAD_FOLDER = r'\path\uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 url = None
 ALLOWED_EXTENSIONS = {'mp4','png', 'jpg', 'jpeg', 'gif'}    
 
-
+myDict = {}
 ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s.%(ext)s'})
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
+        
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+
+    global myDict
+    if request.method == 'POST':
+        print("REQUEST FORM: ", request.form)
+        if request.form['submit_button'] == "BACK":
+            return redirect(url_for('demo'))
+    elif request.method == 'GET':
+        return render_template('upload.html', content=myDict)
+    
+    return render_template('upload.html', content=myDict)
+
+
+@app.route('/demo', methods=['GET', 'POST'])
+def demo():
+
+    global myDict
     myDict = {"input":r"static\videos\b2dl_fallingdown.mp4", "output":r"static\videos\b2dl_fallingdown.webm", "yt_link":None}
+
     # myDict = {"input":r"static\videos\fallingdown.mp4", "output":r"static\videos\out_fallingdown.webm", "yt_link":None}
     
     
@@ -30,6 +50,8 @@ def upload():
     elif request.method == 'POST':
         # return request.form['fileSubmission']
         # check if the post request has the file part
+
+
         file = request.files['fileSubmission']
 
         yt_link = request.form["ytlink"]
@@ -51,13 +73,15 @@ def upload():
             # print("YT video: \n\n", video)
             video_url = video["webpage_url"]
             vid_title = video["title"]
-            vid_title = vid_title.replace("\\", "-")
-            vid_title = vid_title.replace(".", "_")
-            vid_title = vid_title.replace("/", "-")
 
-            dl_vid = video["id"] + ".mp4"
+            # vid_title = vid_title.replace("\\", "-")
+            # vid_title = vid_title.replace(".", "_")
+            # vid_title = vid_title.replace("/", "-")
+            
+            os.rename(video["id"]+".mp4", "input.mp4")
+            dl_vid = r'input.mp4'
 
-            dst_vid = r'static\videos\{}.mp4'.format(vid_title)
+            dst_vid = r'static\videos\input.mp4'
 
             print("Destination video: ", dst_vid)
             print("video title", video_url)
@@ -65,12 +89,10 @@ def upload():
             shutil.move(dl_vid, dst_vid)
             ydl.cache.remove()
 
-            myDict["input"] = dst_vid
+            # myDict["input"] = dst_vid
             # myDict["output"] = dst_vid
         
         elif file:
-            myDict["input"] = r'static\videos\input.mp4'
-
             file.save(r'static\videos\input.mp4')
         # # if user does not select file, browser also
         # # submit an empty part without filename
@@ -88,8 +110,10 @@ def upload():
             # url_for(r'static', filename=r'output.webm',filename1=r'score.webm')
             
             # Run proccess to execute algorithms.py
+            # time.sleep(5)
+            myDict["input"] = r'static\videos\input.mp4'
 
-            return render_template('upload.html', content=myDict)
+            return redirect(url_for('upload'))
     return render_template('demo.html', content=myDict)
 
 

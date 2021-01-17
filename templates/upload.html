@@ -31,24 +31,28 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <img src="static/images/logo_uit.png" width=100 height=auto>
       <h1 style="color: rgb(47, 107, 255);">Human Fall Detection</h1>
-      
     </nav>
   </div>
 
 <div class="container">
       <!-- action="#": redirect to the current page--> 
-      <!-- method "POST": More securer method than "GET"--> 
+      <!-- method "POST": More securer method than "GET"-->
+      <form action="#" method="POST">
+          <input type="submit" value="BACK" name="submit_button" style=" font-size: 32px; font-weight: bold; color: white; background-color: rgb(0, 179, 138); width: 100px; height: 50px;">
+        </p>
+        </form>
+
       <div class="row">
         <div class="column">
           <p style="color: black; font-size: 40px;">Input</p>
-          <video id="video_player" controls width="500" autoplay >
-            <source src= "{{content['input']}}" type="video/mp4">
+          <video id="video_player" controls width="500"  muted=TRUE>
+            <source src= "static/videos/input.mp4" type="video/mp4">
           </video>
         </div>
 
         <div class="column">
           <p style="color: cyan; font-size: 40px;">Output</p>
-          <video id="processed_video" controls width="500" autoplay muted=TRUE>
+          <video id="processed_video" controls width="500"  muted=TRUE>
             <source src="{{content['output']}}" type="video/webm">
           </video>    
         </div>

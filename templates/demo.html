@@ -30,7 +30,7 @@
     <div class="navigator bar">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <img src="static/images/logo_uit.png" width=100 height=auto>
-      <h1 style="color: rgb(47, 107, 255)">Human Fall Detection Demo</h1>
+      <h1 style="color: rgb(47, 107, 255);" >Human Fall Detection</h1>
       
     </nav>
   </div>
@@ -53,12 +53,14 @@
       </form>
         <div class="row">
             <div class="column">
+              <p style="color: black; font-size: 40px;">Input</p>
               <video id="video_player" controls autoplay width="500"  muted=TRUE >
                 <source src= "{{content['input']}}" type="video/mp4">
               </video>
             </div>
 
             <div class="column">
+              <p style="color: cyan; font-size: 40px;">Output</p>
               <video id="processed_video" controls autoplay width="500"  muted=TRUE>
                 <source src="{{content['output']}}" type="video/webm">
               </video>    

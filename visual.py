@@ -94,8 +94,25 @@ def write_on_image(img: np.ndarray, text: str, color: List) -> np.ndarray:
     status = text[status_index + 6:] # Normal/FALL Warning/FALL/None
     rgb_color = {"Normal":rgb_green, "FALL Warning":rgb_yellow, "FALL":rgb_red, "None":rgb_blue}
 
-    print("Status: {} - Color Code: {}".format(status, rgb_color[status]))
+    # print("Status: {} - Color Code: {}".format(status, rgb_color[status]))
+    
+    text_display = text.split(", ")
+    text_display = text_display[1]
+    thickness=60*img.shape[0]//600
 
+    starting_point  = (-10, thickness//2)
+    ending_point  = (img.shape[1]+10, img.shape[0]+10)
+    color=rgb_color[status]
+    cv2.rectangle(img, starting_point, ending_point, color, thickness)
+    cv2.putText(img=img,
+                text=text_display,
+                org=(50*img.shape[1]//1000, 55*img.shape[0]//600),
+                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=1.5*img.shape[0]/600,
+                color=[255, 255, 255],
+                thickness=int(3*img.shape[0]/600) + 3)
+
+    """
     img = cv2.copyMakeBorder(src=img,
                              top=int(0.15 * img.shape[0]),
                              bottom=int(0.05 * img.shape[0]),
@@ -107,22 +124,6 @@ def write_on_image(img: np.ndarray, text: str, color: List) -> np.ndarray:
     for i, line in enumerate(text.split('\n')):
         y = 30 + i * 30
 
-        """
-        thickness=60*img.shape[0]//600
-
-        starting_point  = (-10, thickness//2)
-        ending_point  = (img.shape[1]+10, img.shape[0]+10)
-        color=(0, 0, 255)
-        cv2.rectangle(img, starting_point, ending_point, color, thickness)
-        cv2.putText(img=img,
-                    text="HOLA",
-                    org=(50*img.shape[1]//1000, 55*img.shape[0]//600),
-                    fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                    fontScale=2*img.shape[0]/600,
-                    color=[255, 255, 255],
-                    thickness=int(3*img.shape[0]/600) + 3)
-
-        """
         cv2.putText(img=img,
                     text=line,
                     org=(0, y + 20),
@@ -131,6 +132,7 @@ def write_on_image(img: np.ndarray, text: str, color: List) -> np.ndarray:
                     color=[255, 255, 255],
                     thickness=4)
 
+    """
     return img
 
 

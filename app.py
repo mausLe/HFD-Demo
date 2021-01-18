@@ -110,7 +110,7 @@ def demo():
             # url_for(r'static', filename=r'output.webm',filename1=r'score.webm')
             
             # Run proccess to execute algorithms.py
-            # time.sleep(5)
+            time.sleep(5)
             myDict["input"] = r'static\videos\input.mp4'
 
             return redirect(url_for('upload'))

@@ -5,9 +5,9 @@ from werkzeug.utils import secure_filename
 import os, sys, time
 import youtube_dl, shutil
 
-# import fall_detector_HFD_demo
+import fall_detector_HFD_demo
 
-# f = fall_detector_HFD_demo.FallDetector()
+f = fall_detector_HFD_demo.FallDetector()
 
 
 app = Flask(__name__)
@@ -114,8 +114,8 @@ def demo():
             # Run proccess to execute algorithms.py
             time.sleep(5)
             
-            # f.change_parser_args(myDict)
-            # f.begin()
+            f.change_parser_args(myDict)
+            f.begin()
 
             time.sleep(5)
             myDict["input"] = r'static\videos\input.mp4'

@@ -56,7 +56,7 @@ class FallDetector:
                               help='Draw skeleton on the output video.')
         vis_args.add_argument('--coco_points', default=False, action='store_true',
                               help='Visualises the COCO points of the human pose.')
-        vis_args.add_argument('--save_output', default=False, action='store_true',
+        vis_args.add_argument('--save_output', default=True, action='store_true',
                               help='Save the result in a video file. Output videos are saved in the same directory as input videos with "out" appended at the start of the title')
         vis_args.add_argument('--fps', default=18, type=int,
                               help='FPS for the output video.')

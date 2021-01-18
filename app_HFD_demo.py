@@ -83,7 +83,7 @@ def demo():
             os.rename(video["id"]+".mp4", "input.mp4")
             dl_vid = r'input.mp4'
 
-            dst_vid = r'static\videos\input.mp4'
+            dst_vid = r'static/videos/input.mp4'
 
             print("Destination video: ", dst_vid)
             print("video title", video_url)
@@ -95,7 +95,8 @@ def demo():
             # myDict["output"] = dst_vid
         
         elif file:
-            file.save(r'static\videos\input.mp4')
+            print("WORKING DIR: ", os.getcwd ())
+            file.save(r'static/videos/input.mp4')
         # # if user does not select file, browser also
         # # submit an empty part without filename
 
@@ -113,12 +114,13 @@ def demo():
             
             # Run proccess to execute algorithms.py
             time.sleep(5)
-            
+            myDict["input"] = r'/static/videos/input.mp4'
+            myDict["output"] = r'/static/videos/out.webm'
+
             f.change_parser_args(myDict)
             f.begin()
 
             time.sleep(5)
-            myDict["input"] = r'static\videos\input.mp4'
 
             return redirect(url_for('upload'))
     return render_template('demo.html', content=myDict)

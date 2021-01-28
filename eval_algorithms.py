@@ -256,13 +256,13 @@ def show_tracked_img(img_dict, ip_set, num_matched, output_video, args):
                 # output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-1][:-3]+'.avi', fourcc=cv2.VideoWriter_fourcc(*'MP42'),
                 #                            fps=args.fps, frameSize=img.shape[:2][::-1])
                 
-                output_video = cv2.VideoWriter('static/videos/output.webm', fourcc=cv2.VideoWriter_fourcc(*'vp80'),
+                output_video = cv2.VideoWriter(filename = args.out_path, fourcc=cv2.VideoWriter_fourcc(*'vp80'),
                                            fps=args.fps, frameSize=img.shape[:2][::-1])
 
             else:
                 # /content/HumanFallDetection/vids/input/harUP/s1a1t1c1/Camera1/*.*
                 vidname = args.input_direct.split("/")
-                output_video = cv2.VideoWriter('static/videos/output.webm', fourcc=cv2.VideoWriter_fourcc(*'vp80'),
+                output_video = cv2.VideoWriter(filename = args.out_path, fourcc=cv2.VideoWriter_fourcc(*'vp80'),
                                            fps=args.fps, frameSize=img.shape[:2][::-1])
 
                 # output_video = cv2.VideoWriter(filename = args.out_path +'/out_' + vidname[-3]  + 'mp4', fourcc=cv2.VideoWriter_fourcc(*'DIVX'),

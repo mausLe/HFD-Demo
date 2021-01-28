@@ -201,9 +201,10 @@ class FallDetector:
         specificities = []
         aucs = []
         accuracies = []
-        multicam = ["chute01", "chute02", "chute03"]
+        multicam = ["chute01", "chute02", "chute03", "chute04", "chute05"]
         for i, item in enumerate(multicam, 1):
             self.args.video = "/content/dataset/"+item+"/cam7.avi"
+            self.args.out_path = "/content/test/HFD_output/Out-"+item+"-cam7.webm"
             # self.args.video = "/content/HFD-Demo/static/videos/walkingTrip.mp4"
             pred = self.execute_video()
 
@@ -239,9 +240,12 @@ class FallDetector:
             # Compute metrics and print them
             cm = confusion_matrix(y_test, predicted, labels=[0,1])
             tp = cm[1][1]
-            fn = cm[0][1]
-            fp = cm[1][0]
+            fn = cm[1][0]
+            fp = cm[0][1]
             tn = cm[0][0]
+            print('FOLD/CAMERA {} results:'.format(i))
+            print('TP: {}, TN: {}, FP: {}, FN: {}'.format(tp,tn,fp,fn))
+
             tpr = tp/float(tp+fn)
             fpr = fp/float(fp+tn)
             fnr = fn/float(fn+tp)
@@ -254,8 +258,6 @@ class FallDetector:
             fpr, tpr, _ = roc_curve(y_test, predicted)
             roc_auc = auc(fpr, tpr)
 
-            print('FOLD/CAMERA {} results:'.format(i))
-            print('TP: {}, TN: {}, FP: {}, FN: {}'.format(tp,tn,fp,fn))
             print('TPR: {}, TNR: {}, FPR: {}, FNR: {}'.format(
                             tpr,tnr,fpr,fnr))   
             print('Sensitivity/Recall: {}'.format(recall))

@@ -362,7 +362,7 @@ def match_unmatched(unmatched_1, unmatched_2, lstm_set1, lstm_set2, num_matched)
     return final_pairs, new_matched_1, new_matched_2, new_lstm1, new_lstm2
 
 
-def alg2_sequential(queues, argss, consecutive_frames, event):
+def alg2_sequential(queues, argss, consecutive_frames, event, predicted):
     print("\n\nFuntion 7 - alg2_sequential() - LINE 356")
 
     print("\ninit LSTM object - LINE 358")
@@ -392,6 +392,7 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
     
     print("\nEntering Loop - LINE 295")
     no_img = 1
+    lstm_result = []
     while True:
 
         # if not queue1.empty() and not queue2.empty():
@@ -416,11 +417,12 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
                 dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction+5]}"
                 # img, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 
+                lstm_result.append(dict_frames[0]["tagged_df"])
                 window_names = [args.video if isinstance(args.video, str) else 'Cam '+str(args.video) for args in argss]
 
 
                 no_img = no_img + 1                
-y
+
             elif argss[0].num_cams == 2:
                 num_matched, new_num, indxs_unmatched1 = match_ip(ip_sets[0], kp_frames[0], lstm_sets[0], num_matched, max_length_mat)
                 assert(new_num == len(ip_sets[0]))
@@ -541,7 +543,7 @@ y
     #     #     print(np.linalg.norm(ip_sets[0][0][-1][0]['B']-ip_sets[0][0][-1][0]['H']))
 
     # print("P2 Over")
-
+    predicted.put(lstm_result)
     print("\n\nEXIT F7 - LINE 248")
 
     del model

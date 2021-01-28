@@ -121,6 +121,7 @@ class FallDetector:
 
     def execute_video(self):
         global predicted
+        predicted = mp.Queue()  #store the result
         e = mp.Event()
         queues = [mp.Queue() for _ in range(self.args.num_cams)]
         counter1 = mp.Value('i', 0)
@@ -185,7 +186,7 @@ class FallDetector:
 
         if not self.args.coco_points:
             process2.join()
-        return
+        return predicted
 
     def begin(self):
         global predicted
@@ -203,8 +204,10 @@ class FallDetector:
         multicam = ["chute01", "chute02", "chute03"]
         for i, item in enumerate(multicam, 1):
             self.args.video = "/content/dataset/"+item+"/cam7.avi"
-            self.execute_video()
+            pred = self.execute_video()
 
+            print("-"*40)
+            print("PREDICTED", pred)
             # ==================== EVALUATION ========================  
             # Load best model
             # predicted = np.random.randint(0, 2, (1000))

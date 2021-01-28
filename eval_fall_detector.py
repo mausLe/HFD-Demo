@@ -204,10 +204,14 @@ class FallDetector:
         multicam = ["chute01", "chute02", "chute03"]
         for i, item in enumerate(multicam, 1):
             self.args.video = "/content/dataset/"+item+"/cam7.avi"
+            self.args.video = "/content/HFD-Demo/static/videos/walkingTrip.mp4"
             pred = self.execute_video()
 
             print("-"*40)
-            print("PREDICTED", pred)
+            predicted =  pred.get()
+            print("PREDICTED", predicted)
+
+            
             # ==================== EVALUATION ========================  
             # Load best model
             # predicted = np.random.randint(0, 2, (1000))
@@ -215,6 +219,12 @@ class FallDetector:
             annote = annotations["scenario" + str(i)]
             cam_delay = delays["camera7" ]["1"]
 
+            """
+            # Create label for testset
+            y_test = np.random.randint(0, 2, (len(predicted)))
+            y_test = np.asarray(y_test).astype(int)
+
+            """
             # Create label for testset
             y_test = np.zeros(len(predicted))
 

@@ -240,6 +240,8 @@ def show_tracked_img(img_dict, ip_set, num_matched, output_video, args):
     img = write_on_image(img=img, text=tagged_df["text"],
                          color=tagged_df["color"])
 
+    
+
     if output_video is None:
         if args.save_output:
             # args.video = "hooooo"
@@ -415,9 +417,11 @@ def alg2_sequential(queues, argss, consecutive_frames, event, predicted):
                 num_matched, new_num, indxs_unmatched = match_ip(ip_sets[0], kp_frames[0], lstm_sets[0], num_matched, max_length_mat)
                 valid1_idxs, prediction = get_all_features(ip_sets[0], lstm_sets[0], model)
                 dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction+5]}"
-                # img, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
-                
-                lstm_result.append(dict_frames[0]["tagged_df"])
+                img, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
+                if prediction == 0:
+                  lstm_result.append(1)
+                else:
+                  lstm_result.append(0)
                 window_names = [args.video if isinstance(args.video, str) else 'Cam '+str(args.video) for args in argss]
 
 

@@ -204,7 +204,7 @@ class FallDetector:
         multicam = ["chute01", "chute02", "chute03"]
         for i, item in enumerate(multicam, 1):
             self.args.video = "/content/dataset/"+item+"/cam7.avi"
-            self.args.video = "/content/HFD-Demo/static/videos/walkingTrip.mp4"
+            # self.args.video = "/content/HFD-Demo/static/videos/walkingTrip.mp4"
             pred = self.execute_video()
 
             print("-"*40)
@@ -237,11 +237,11 @@ class FallDetector:
             y_test = np.asarray(y_test).astype(int)
 
             # Compute metrics and print them
-            cm = confusion_matrix(y_test, predicted,labels=[0,1])
-            tp = cm[0][0]
+            cm = confusion_matrix(y_test, predicted, labels=[0,1])
+            tp = cm[1][1]
             fn = cm[0][1]
             fp = cm[1][0]
-            tn = cm[1][1]
+            tn = cm[0][0]
             tpr = tp/float(tp+fn)
             fpr = fp/float(fp+tn)
             fnr = fn/float(fn+tp)

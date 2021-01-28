@@ -203,11 +203,11 @@ class FallDetector:
         multicam = ["chute01", "chute02", "chute03"]
         for i, item in enumerate(multicam, 1):
             self.args.video = "/content/dataset/"+item+"/cam7.avi"
-            execute_video()
+            self.execute_video()
 
             # ==================== EVALUATION ========================  
             # Load best model
-            predicted = np.random.randint(0, 2, (1000))
+            # predicted = np.random.randint(0, 2, (1000))
 
             annote = annotations["scenario" + str(i)]
             cam_delay = delays["camera7" ]["1"]
